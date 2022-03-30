@@ -23,7 +23,7 @@ def book(request, id):
 def unordered_books(request):
     books = Book.objects.filter(orders=None)
     filtered_books = books_filter(request, books)
-    list_of_books = filtered_books if filtered_books else books
+    list_of_books = filtered_books if filtered_books is not None else books
     return render(request, 'book_list.html', {'books': list_of_books,
                                               'title': 'Unordered books'})
 
