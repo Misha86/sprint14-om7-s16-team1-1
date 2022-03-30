@@ -20,5 +20,3 @@ def unordered_books(request):
     books = Book.objects.filter(orders=None)
     return render(request, 'book_list.html', {'books': books,
                                               'title': 'Unordered books'})
-
-
