@@ -1,25 +1,27 @@
 {% extends 'base.html' %} {% load static %}
 
+{% block title %}Books{% endblock %}
+
 {% block content %}
 
 <div class="container px-4 py-5" id="icon-grid">
     <h2 class="pb-2 border-bottom">Books</h2>
-
-    {% for book in books%}
-
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+
+        {% for book in books %}
+
         <div class="col d-flex align-items-start">
             <div>
                 <a href="#" class="nav-link text-black">
-                    <h4 class="fw-bold mb-0">{{book.title}}</h4>
-                    <p>{{book.description|truncatechars 30}}</p>
+                    <h4 class="fw-bold mb-0">{{book.name}}</h4>
+                    <p>{{book.description|truncatechars:60}}</p>
                 </a>
             </div>
         </div>
+
+        {% endfor %}
+
     </div>
-
-    {% endfor %}
-
 </div>
 
 {% endblock content %}

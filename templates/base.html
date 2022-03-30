@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Library</title>
+    <title>{% block title %}Library{% endblock %}</title>
     <link rel="shortcut icon" href="{% static 'library.png' %}">
 
     <!-- Bootstrap core CSS -->
@@ -15,6 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'headers.css' %}" rel="stylesheet">
     <link href="{% static 'features.css' %}" rel="stylesheet">
+    <link href="{% static 'mycss.css' %}" rel="stylesheet">
 
 </head>
 <body>
@@ -102,9 +103,18 @@
             </div>
         </div>
     </header>
-    {% block content %}
 
+    {% block content %}
+    <style>
+        body {
+           background-image: url({% static "VIRAL.jpg" %});
+           background-repeat: no-repeat;
+           background-position: center;
+           background-attachment: fixed;
+        }
+    </style>
     {% endblock content %}
+
 </main>
 <script src="{static 'bootstrap.bundle.min.js'}"></script>
 </body>
