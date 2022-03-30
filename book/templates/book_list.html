@@ -14,10 +14,20 @@
             <div>
                 <a href="#" class="nav-link text-black">
                     <h4 class="fw-bold mb-0">{{book.name}}</h4>
-                    <p>{{book.description|truncatechars:60}}</p>
+                    <div>
+                        <strong>Author{% if book.authors.all.count > 1 %}s{% endif%}:</strong>
+                        {% for author in book.authors.all %}
+                        <em class="border-bottom">{{author.get_full_name}}{% if book.authors.all.last != author %},{% endif %}</em>
+                        {% endfor %}
+                        <p>{{book.description|truncatechars:60}}</p>
+                    </div>
                 </a>
             </div>
         </div>
+
+        {% empty %}
+
+        <h2 class="pb-2">Books list empty!</h2>
 
         {% endfor %}
 
