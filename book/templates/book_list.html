@@ -1,11 +1,32 @@
 {% extends 'base.html' %} {% load static %}
 
-{% block title %}Books{% endblock %}
+{% block title %}{{title}}{% endblock %}
 
 {% block content %}
 
-<div class="container px-4 py-5" id="icon-grid">
-    <h2 class="pb-2 border-bottom">{{title}}</h2>
+<div class="container px-4 py-3" id="icon-grid">
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-8">
+            <h2>{{title}}</h2>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <form class="needs-validation" novalidate="">
+                <div class="row">
+                    <div class="col-md-6 text-end" style="padding: 0;">
+                        <label for="state" class="form-label">Sort by:</label>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-select text-end" id="state" required="">
+                            <option value="">all books</option>
+                            <option>unordered books</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="my-1">
+    </div>
+
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
 
         {% for book in books %}
@@ -17,7 +38,11 @@
                     <div>
                         <strong>Author{% if book.authors.all.count > 1 %}s{% endif%}:</strong>
                         {% for author in book.authors.all %}
-                        <em class="border-bottom">{{author.get_full_name}}{% if book.authors.all.last != author %},{% endif %}</em>
+                        <em class="border-bottom">{{author.get_full_name}}
+                            {% if book.authors.all.last != author %}
+                            ,
+                            {% endif %}
+                        </em>
                         {% endfor %}
                         <p>{{book.description|truncatechars:60}}</p>
                     </div>
