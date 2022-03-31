@@ -1,4 +1,5 @@
 from django.db import models, DataError, IntegrityError
+from django.urls import reverse
 
 from authentication.models import CustomUser
 from author.models import Author
@@ -26,6 +27,7 @@ class Order(models.Model):
         :return: class, id
         """
         return f'{self.__class__.__name__}(id={self.id})'
+
     def to_dict(self):
 
         return {

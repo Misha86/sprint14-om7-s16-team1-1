@@ -62,7 +62,8 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'book', 'templates', 'book'),
                  os.path.join(BASE_DIR, 'authentication', 'templates', 'authentication'),
-                 os.path.join(BASE_DIR, 'author', 'templates', 'author')]
+                 os.path.join(BASE_DIR, 'author', 'templates', 'author'),
+                 os.path.join(BASE_DIR, 'order', 'templates', 'order')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {

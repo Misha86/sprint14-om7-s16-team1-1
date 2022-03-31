@@ -23,3 +23,17 @@ def sort_by(request, books):
         elif value == 'count-high-low':
             books = books.order_by('-count')
     return books
+
+
+def sort_orders_by(request, orders):
+    if request.method == 'GET' and request.GET.get('sort'):
+        value = request.GET.get('sort')
+        if value == 'created-high-low':
+            orders = orders.order_by('-created_at')
+        elif value == 'created-low-high':
+            orders = orders.order_by('created_at')
+        elif value == 'plated-at-high-low':
+            orders = orders.order_by('-plated_end_at')
+        elif value == 'plated-at-low-high':
+            orders = orders.order_by('plated_end_at')
+    return orders
