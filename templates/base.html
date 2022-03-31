@@ -104,7 +104,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link text-white">
+                            <a href="{% url 'authentication:user-list' %}" class="nav-link text-white">
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#people-circle"/>
                                 </svg>
@@ -120,13 +120,13 @@
 
         {% block content %}
         <style>
+
             body {
                background-image: url({% static "VIRAL.jpg" %});
                background-repeat: no-repeat;
                background-position: center;
                background-attachment: fixed;
             }
-
 
         </style>
         {% endblock content %}

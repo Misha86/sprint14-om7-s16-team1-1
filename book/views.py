@@ -10,9 +10,7 @@ def home_page(request):
 
 def book_list(request):
     books = Book.objects.all()
-    filtered_books = books_filter(request, books)
-    list_of_books = filtered_books if filtered_books else books
-    return render(request, 'book_list.html', {'books': list_of_books,
+    return render(request, 'book_list.html', {'books': books_filter(request, books),
                                               'title': 'Books'})
 
 
@@ -22,9 +20,7 @@ def book(request, id):
 
 def unordered_books(request):
     books = Book.objects.filter(orders=None)
-    filtered_books = books_filter(request, books)
-    list_of_books = filtered_books if filtered_books else books
-    return render(request, 'book_list.html', {'books': list_of_books,
+    return render(request, 'book_list.html', {'books': books_filter(request, books),
                                               'title': 'Unordered books'})
 
 
@@ -34,4 +30,4 @@ def books_filter(request, books):
         return books.filter(Q(name__contains=query) | Q(authors__patronymic=query) | Q(authors__name=query)
                             | Q(authors__surname=query)).distinct()
     else:
-        return None
+        return books

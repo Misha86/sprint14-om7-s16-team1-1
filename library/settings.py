@@ -60,7 +60,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'book', 'templates')]
+                 os.path.join(BASE_DIR, 'book', 'templates', 'book'),
+                 os.path.join(BASE_DIR, 'authentication', 'templates', 'authentication')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -138,5 +139,3 @@ try:
     from .local_settings import *
 except ImportError:
     pass
-
-AUTH_USER_MODEL = 'authentication.CustomUser'

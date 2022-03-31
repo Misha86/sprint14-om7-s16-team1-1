@@ -10,7 +10,7 @@
     <div class="col-md-4 col-lg-4 justify-content-right">
         <form action="{{request.path}}">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="q">
+                <input type="text" class="form-control" placeholder="Search user..." name="q">
                 <div class="input-group-btn">
                     <button class="btn btn-light" type="submit" style="border: 1px solid #ced4da;
                     border-top-left-radius: 0; border-bottom-left-radius: 0;">
@@ -40,25 +40,10 @@
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
 
-    {% for book in books %}
+    {% for user in users %}
 
     <div class="col d-flex align-items-start">
-        <div>
-            <a href="{% url 'book' book.id %}" class="nav-link text-black">
-                <h4 class="fw-bold mb-0">{{book.name}}</h4>
-                <div>
-                    <strong>Author{% if book.authors.all.count > 1 %}s{% endif%}:</strong>
-                    {% for author in book.authors.all %}
-                    <em class="border-bottom">{{author.get_full_name}}
-                        {% if book.authors.all.last != author %}
-                        ,
-                        {% endif %}
-                    </em>
-                    {% endfor %}
-                    <p>{{book.description|truncatechars:60}}</p>
-                </div>
-            </a>
-        </div>
+
     </div>
 
     {% empty %}
@@ -69,5 +54,6 @@
 
 </div>
 
-{% endblock content %}
+{% endblock %}
+
 

@@ -1,0 +1,73 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+<div class="row g-3">
+    <div class="col-md-5 col-lg-5">
+        <h2>{{title}}</h2>
+    </div>
+    <div class="col-md-4 col-lg-4 justify-content-right">
+        <form action="{{request.path}}">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search book.." name="q">
+                <div class="input-group-btn">
+                    <button class="btn btn-light" type="submit" style="border: 1px solid #ced4da;
+                    border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                        search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3 col-lg-3">
+        <form class="needs-validation" novalidate="">
+            <div class="row">
+                <div class="col-md-3 text-end" style="padding: 0;">
+                    <label for="state" class="form-label">Sort by:</label>
+                </div>
+                <div class="col-md-9">
+                    <select class="form-select text-end" id="state" required="">
+                        <option value="">all books</option>
+                        <option>unordered books</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr class="my-1">
+</div>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+
+    {% for book in books %}
+
+    <div class="col d-flex align-items-start">
+        <div>
+            <a href="{% url 'book' book.id %}" class="nav-link text-black">
+                <h4 class="fw-bold mb-0">{{book.name}}</h4>
+                <div>
+                    <strong>Author{% if book.authors.all.count > 1 %}s{% endif%}:</strong>
+                    {% for author in book.authors.all %}
+                    <em class="border-bottom">{{author.get_full_name}}
+                        {% if book.authors.all.last != author %}
+                        ,
+                        {% endif %}
+                    </em>
+                    {% endfor %}
+                    <p>{{book.description|truncatechars:60}}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% empty %}
+
+    <h2 class="pb-2" style="color: green;">Book list is empty!</h2>
+
+    {% endfor %}
+
+</div>
+
+{% endblock content %}
+
