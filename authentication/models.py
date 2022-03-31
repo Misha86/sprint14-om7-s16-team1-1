@@ -132,7 +132,8 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
         # orders = self.orders.select_related('book')
         # return [order.book for order in orders]
         orders = self.orders.select_related('book')
-        book_ids = [order.book.id for order in orders]
+        book_ids = orders.values_list('book__id', flat=True)
+        # book_ids = [order.book.id for order in orders]
         return Book.objects.filter(id__in=book_ids)
 
     @staticmethod
