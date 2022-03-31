@@ -127,6 +127,10 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
     def get_absolute_url(self):
         return reverse('authentication:user-books', kwargs={'id': self.id})
 
+    def get_user_books(self):
+        orders = self.orders.select_related('book')
+        return [order.book for order in orders]
+
     @staticmethod
     def get_by_id(user_id):
         """

@@ -13,10 +13,10 @@
     {% if authors %}
     <thead>
     <tr>
-        <th>Id</th>
         <th>Name</th>
         <th>Surname</th>
         <th>Patronymic</th>
+        <th>Book count</th>
     </tr>
     </thead>
     <tbody id="myTable">
@@ -25,7 +25,6 @@
     {% for author in authors %}
 
     <tr>
-        <td>{{author.id}}</td>
         <td>
             <a href="{{ author.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
                 {{author.name}}
@@ -39,6 +38,11 @@
         <td>
             <a href="{{ author.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
                 {{author.patronymic}}
+            </a>
+        </td>
+        <td>
+            <a href="{{ author.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+                {{author.books.all.count }}
             </a>
         </td>
     </tr>
