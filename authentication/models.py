@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models, IntegrityError
 from django.db.utils import DataError
+from django.urls import reverse
+
 
 ROLE_CHOICES = (
     (0, 'visitor'),
@@ -118,6 +120,9 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
         :return: class, id
         """
         return f'{self.__class__.__name__}(id={self.id})'
+
+    def get_absolute_url(self):
+        return reverse('authentication:user-books', kwargs={'id': self.id})
 
     @staticmethod
     def get_by_id(user_id):
