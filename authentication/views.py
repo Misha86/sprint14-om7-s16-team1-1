@@ -10,7 +10,7 @@ def user_list(request):
 
 def user_books(request, id):
     user = get_object_or_404(CustomUser, id=id)
-    orders = Order.objects.filter(user=user)
-    print(orders)
+    orders = Order.objects.filter(user=user).select_related('book')
+    books = [order.book for order in orders]
     return render(request, 'book_list.html', {'title': 'User Books',
-                                              'books': orders})
+                                              'books': books})
