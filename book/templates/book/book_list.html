@@ -8,9 +8,11 @@
     <h2>{{title}}</h2>
 </div>
 <div class="col-md-2 col-lg-2">
-    {% if title != 'Unordered books' %}
+    {% if title == 'Books' %}
     <a href="{% url 'unordered-books' %}" class="nav-link text-black">
-        <i><h6 style="color: grey;">Get Unordered books</h6></i>
+        <i>
+            <h6 style="color: grey;">Get Unordered books</h6>
+        </i>
     </a>
     {% endif %}
 </div>
@@ -34,8 +36,8 @@
                 <label for="state" class="form-label">Sort by:</label>
             </div>
             <div class="col-md-9">
-                <select class="form-select text-end" id="state" required="" onchange="this.form.submit()" name="sort" >
-                    <option value="">--sort books--</option>
+                <select class="form-select text-center" id="state" required="" onchange="this.form.submit()" name="sort" >
+                    <option class="text-align-right" value="">--sort books--</option>
                     <option value="name-a-z">Name: a-z</option>
                     <option value="name-z-a">Name: z-a</option>
                     <option value="count-low-high">Count: low to high</option>

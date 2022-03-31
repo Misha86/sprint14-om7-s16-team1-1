@@ -5,6 +5,7 @@ from django.core.validators import validate_email
 from django.db import models, IntegrityError
 from django.db.utils import DataError
 from django.urls import reverse
+from book.models import Book
 
 
 ROLE_CHOICES = (
@@ -128,8 +129,11 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
         return reverse('authentication:user-books', kwargs={'id': self.id})
 
     def get_user_books(self):
+        # orders = self.orders.select_related('book')
+        # return [order.book for order in orders]
         orders = self.orders.select_related('book')
-        return [order.book for order in orders]
+        book_ids = [order.book.id for order in orders]
+        return Book.objects.filter(id__in=book_ids)
 
     @staticmethod
     def get_by_id(user_id):

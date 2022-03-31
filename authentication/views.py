@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import CustomUser
+from library.utils import search_books, sort_by
 
 
 def user_list(request):
@@ -8,6 +9,6 @@ def user_list(request):
 
 
 def user_books(request, id):
-    user = get_object_or_404(CustomUser, id=id)
+    books = get_object_or_404(CustomUser, id=id).get_user_books()
     return render(request, 'book_list.html', {'title': 'User Books',
-                                              'books': user.get_user_books()})
+                                              'books': sort_by(request, search_books(request, books))})
