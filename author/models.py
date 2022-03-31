@@ -1,4 +1,5 @@
 from django.db import models, IntegrityError, DataError
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -35,6 +36,9 @@ class Author(models.Model):
 
     def get_full_name(self):
         return f"{self.name} {self.surname}"
+
+    def get_absolute_url(self):
+        return reverse('author:author-books', kwargs={'id': self.id})
 
     @staticmethod
     def get_by_id(author_id):

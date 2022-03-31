@@ -21,5 +21,6 @@ urlpatterns = [
     path('', views.home_page, name='home-page'),
     path('user/', include('authentication.urls', namespace='authentication')),
     path('book/', include('book.urls')),
+    path('author/', include('author.urls', namespace='author')),
     path('admin/', admin.site.urls),
 ]

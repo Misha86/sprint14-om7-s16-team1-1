@@ -10,48 +10,42 @@
 <br>
 <table class="table table-bordered table-striped">
 
-    {% if users %}
+    {% if authors %}
     <thead>
     <tr>
         <th>Id</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Middle name</th>
-        <th>Email</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Patronymic</th>
     </tr>
     </thead>
     <tbody id="myTable">
     {% endif %}
 
-    {% for user in users %}
+    {% for author in authors %}
 
     <tr>
-        <td>{{user.id}}</td>
+        <td>{{author.id}}</td>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
-                {{user.first_name}}
+            <a href="{{ author.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+                {{author.name}}
             </a>
         </td>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
-                {{user.last_name}}
+            <a href="{{ author.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+                {{author.surname}}
             </a>
         </td>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
-                {{user.middle_name}}
-            </a>
-        </td>
-        <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
-                {{user.email}}
+            <a href="{{ author.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+                {{author.patronymic}}
             </a>
         </td>
     </tr>
 
     {% empty %}
 
-    <h2 class="pb-2" style="color: green;">User list is empty!</h2>
+    <h2 class="pb-2" style="color: green;">Author list is empty!</h2>
 
     {% endfor %}
 
