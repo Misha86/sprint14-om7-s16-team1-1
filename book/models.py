@@ -24,7 +24,7 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author, related_name='books')
 
     class Meta:
-        ordering = ['name']
+        ordering = ['id']
 
     def __str__(self):
         """

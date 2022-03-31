@@ -89,6 +89,9 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
 
     REQUIRED_FIELDS = ['first_name', 'middle_name', 'last_name']
 
+    class Meta:
+        ordering = ['id']
+
     @property
     def is_staff(self):
         """Is the user a member of staff?"""

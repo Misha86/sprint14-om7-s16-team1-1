@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import CustomUser
-from  order.models import Order
+from order.models import Order
 
 
 def user_list(request):
