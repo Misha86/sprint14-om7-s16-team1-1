@@ -38,10 +38,10 @@
             <div class="col-md-9">
                 <select class="form-select text-center" id="state" required="" onchange="this.form.submit()" name="sort" >
                     <option class="text-align-right" value="">--sort books--</option>
-                    <option value="name-a-z">Name: a-z</option>
-                    <option value="name-z-a">Name: z-a</option>
-                    <option value="count-low-high">Count: low to high</option>
-                    <option value="count-high-low">Count: high to low</option>
+                    <option value="name" {% if request.session.sort == 'name' %}selected{% endif %}>Name: a-z</option>
+                    <option value="-name" {% if request.session.sort == '-name' %}selected{% endif %}>Name: z-a</option>
+                    <option value="count" {% if request.session.sort == 'count' %}selected{% endif %}>Count: low to high</option>
+                    <option value="-count" {% if request.session.sort == '-count' %}selected{% endif %}>Count: high to low</option>
                 </select>
             </div>
         </div>

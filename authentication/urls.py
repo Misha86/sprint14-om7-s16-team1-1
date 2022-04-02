@@ -6,5 +6,5 @@ app_name = "authentication"
 urlpatterns = [
     path('list/', views.user_list, name='user-list'),
     path('<int:id>/', views.user_books, name='user-books'),
-    path('list/violators/', views.users_violators, name='users-violators'),
+    path('list/violator/', views.users_violators, name='users-violators'),
 ]
