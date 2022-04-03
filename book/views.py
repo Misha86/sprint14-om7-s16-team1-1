@@ -12,6 +12,10 @@ def book_list(request):
     return search_sort_paginate_books(request, books, 'Books', 12)
 
 
+def book(request, id):
+    return render(request, 'book.html', {'book': get_object_or_404(Book, id=id)})
+
+
 def unordered_books(request):
     books = Book.objects.filter(orders=None)
     return search_sort_paginate_books(request, books, 'Unordered books', 12)
