@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 
 from order.models import Order
 from .models import CustomUser
-from library.utils import search_books, sort_by
+from library.utils import search_books, sort_by, pagination_objects
 
 
 def user_list(request):
@@ -13,9 +13,10 @@ def user_list(request):
 
 def user_books(request, id):
     user = get_object_or_404(CustomUser, id=id)
-    books = user.get_user_books()
+    sorted_books = sort_by(request, search_books(request, user.get_user_books()))
+    books_pages = pagination_objects(request, sorted_books, 2)
     return render(request, 'book_list.html', {'title': f'{user.get_full_name()} Books',
-                                              'books': sort_by(request, search_books(request, books))})
+                                              'books': books_pages})
 
 
 def users_violators(request):
