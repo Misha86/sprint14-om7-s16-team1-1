@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<div class="container px-4 py-5" id="icon-grid">
     <h2 class="pb-2 border-bottom">{{book.name|upper}}</h2>
     <div class="row row-cols-1 g-4">
         <em class="border-bottom"><strong>Author{% if book.authors.all.count > 1 %}s{% endif%}:</strong>
@@ -14,7 +13,6 @@
         </em>
         <p style="text-indent: 19px;">{{book.description}}</p>
     </div>
-</div>
 
 {% endblock content %}
 
