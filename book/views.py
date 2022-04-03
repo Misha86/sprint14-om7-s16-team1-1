@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.template.response import TemplateResponse
 from .models import Book
 from library.utils import search_sort_paginate_books
 
 
 def home_page(request):
-    return TemplateResponse(request, 'base.html')
+    return render(request, 'base.html')
 
 
 def book_list(request):

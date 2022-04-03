@@ -11,7 +11,13 @@
     {% if title == 'Users' %}
     <a href="{% url 'authentication:users-violators' %}" class="nav-link text-black">
         <i>
-            <h6 style="color: grey;">Users violators</h6>
+            <h6 style="color: grey;">Users Violators</h6>
+        </i>
+    </a>
+    {% else %}
+    <a href="{% url 'authentication:user-list' %}" class="nav-link text-black">
+        <i>
+            <h6 style="color: grey;">All Users</h6>
         </i>
     </a>
     {% endif %}
@@ -38,28 +44,37 @@
 
     <tr>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+            <a href="{{ user.get_absolute_url }}{% if title == 'Users Violators' %}?violator={{user.id}}{% endif %}"
+               class="nav-link text-black" style="padding: 0;">
                 {{user.first_name}}
             </a>
         </td>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+            <a href="{{ user.get_absolute_url }}{% if title == 'Users Violators' %}?violator={{user.id}}{% endif %}"
+               class="nav-link text-black" style="padding: 0;">
                 {{user.last_name}}
             </a>
         </td>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+            <a href="{{ user.get_absolute_url }}{% if title == 'Users Violators' %}?violator={{user.id}}{% endif %}"
+               class="nav-link text-black" style="padding: 0;">
                 {{user.middle_name}}
             </a>
         </td>
         <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
+            <a href="{{ user.get_absolute_url }}{% if title == 'Users Violators' %}?violator={{user.id}}{% endif %}"
+               class="nav-link text-black" style="padding: 0;">
                 {{user.email}}
             </a>
         </td>
          <td>
-            <a href="{{ user.get_absolute_url }}" class="nav-link text-black" style="padding: 0;">
-                {{ user.get_user_books | length }}
+            <a href="{{ user.get_absolute_url }}{% if title == 'Users Violators' %}?violator={{user.id}}{% endif %}"
+               class="nav-link text-black" style="padding: 0;">
+                {% if title == 'Users Violators' %}
+                    {{ user.get_user_violator_books | length }}
+                {% else %}
+                    {{ user.get_user_books | length }}
+                {% endif%}
             </a>
         </td>
     </tr>

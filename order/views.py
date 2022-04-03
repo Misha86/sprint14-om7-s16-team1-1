@@ -10,5 +10,4 @@ def order_list(request):
 
 def order_book(request, id):
     book = get_object_or_404(Order, id=id).books
-    return render(request, 'book_list.html', {'title': 'Order Books',
-                                              'book': book})
+    return render(request, 'book_list.html', {'title': 'Order Books', 'book': book})

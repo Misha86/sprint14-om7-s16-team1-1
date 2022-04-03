@@ -141,6 +141,9 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
         books = Book.objects.filter(id__in=Subquery(self.orders.values('book')))
         return books
 
+    def get_user_violator_books(self):
+        return self.get_user_books().filter(orders__created_at__lt=F('orders__end_at'))
+
     @staticmethod
     def get_by_id(user_id):
         """

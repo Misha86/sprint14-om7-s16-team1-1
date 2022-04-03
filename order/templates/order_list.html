@@ -65,7 +65,8 @@
             </a>
         </td>
         <td>
-            <a href="{% url 'book' order.book.id  %}" class="nav-link text-black" style="padding: 0;">
+            <a href="{% url 'book' order.book.id  %}" class="nav-link text-black" style="padding: 0;
+            {% if not order.end_at %} color: green !important; {% endif %}">
                 {% if not order.end_at %}  not yet {% else %} {{order.end_at}} {% endif %}
             </a>
         </td>
@@ -95,11 +96,6 @@ $(document).ready(function(){
     });
   });
 });
-
-
-
-
-
 
 </script>
 

@@ -44,8 +44,7 @@ def pagination_objects(request, objects_all, count_objects=2):
     return books
 
 
-def search_sort_paginate_books(request, books, title, count_objects):
+def search_sort_paginate_books(request, books, title, count_objects, html='book_list.html'):
     sorted_books = sort_by(request, search_books(request, books))
     books_pages = pagination_objects(request, sorted_books, count_objects)
-    return render(request, 'book_list.html', {'books': books_pages,
-                                              'title': title})
+    return render(request, html, {'books': books_pages, 'title': title})
