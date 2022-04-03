@@ -11,7 +11,13 @@
     {% if title == 'Books' %}
     <a href="{% url 'unordered-books' %}" class="nav-link text-black">
         <i>
-            <h6 style="color: grey;">Get Unordered books</h6>
+            <h6 style="color: grey;">Get Unordered Books</h6>
+        </i>
+    </a>
+    {% else %}
+    <a href="{% url 'book-list' %}" class="nav-link text-black">
+        <i>
+            <h6 style="color: grey;">Get All Books</h6>
         </i>
     </a>
     {% endif %}

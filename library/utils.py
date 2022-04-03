@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
@@ -41,3 +42,10 @@ def pagination_objects(request, objects_all, count_objects=2):
         # If page is not an integer, deliver first page.
         books = paginator.page(1)
     return books
+
+
+def search_sort_paginate_books(request, books, title, count_objects):
+    sorted_books = sort_by(request, search_books(request, books))
+    books_pages = pagination_objects(request, sorted_books, count_objects)
+    return render(request, 'book_list.html', {'books': books_pages,
+                                              'title': title})
