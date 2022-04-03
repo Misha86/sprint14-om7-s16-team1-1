@@ -11,7 +11,7 @@ def home_page(request):
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'book_list.html', {'books': sort_by(request, search_books(request, books)),
-                                              'title': 'Books'})
+
 
 
 def book(request, id):
@@ -22,6 +22,3 @@ def unordered_books(request):
     books = Book.objects.filter(orders=None)
     return render(request, 'book_list.html', {'books': sort_by(request, search_books(request, books)),
                                               'title': 'Unordered books'})
-
-
-
