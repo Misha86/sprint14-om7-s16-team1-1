@@ -125,15 +125,15 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
         """
         return f'{self.__class__.__name__}(id={self.id})'
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     def get_absolute_url(self):
         return reverse('authentication:user-books', kwargs={'id': self.id})
 
     def get_user_books(self):
-        # orders = self.orders.select_related('book')
-        # return [order.book for order in orders]
         orders = self.orders.select_related('book')
         book_ids = orders.values_list('book__id', flat=True)
-        # book_ids = [order.book.id for order in orders]
         return Book.objects.filter(id__in=book_ids)
 
     @staticmethod
