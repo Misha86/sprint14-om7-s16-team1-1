@@ -33,6 +33,9 @@ class Author(models.Model):
         """
         return f'{self.__class__.__name__}(id={self.id})'
 
+    def get_full_name(self):
+        return f"{self.name} {self.surname}"
+
     @staticmethod
     def get_by_id(author_id):
         """

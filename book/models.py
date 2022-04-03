@@ -23,6 +23,9 @@ class Book(models.Model):
     count = models.IntegerField(default=10)
     authors = models.ManyToManyField(Author, related_name='books')
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         """
         Magic method is redefined to show all information about Book.
