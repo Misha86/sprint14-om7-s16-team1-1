@@ -11,7 +11,13 @@
     {% if title == 'Books' %}
     <a href="{% url 'unordered-books' %}" class="nav-link text-black">
         <i>
-            <h6 style="color: grey;">Get Unordered books</h6>
+            <h6 style="color: grey;">Get Unordered Books</h6>
+        </i>
+    </a>
+    {% else %}
+    <a href="{% url 'book-list' %}" class="nav-link text-black">
+        <i>
+            <h6 style="color: grey;">Get All Books</h6>
         </i>
     </a>
     {% endif %}
@@ -36,12 +42,21 @@
                 <label for="state" class="form-label">Sort by:</label>
             </div>
             <div class="col-md-9">
-                <select class="form-select text-center" id="state" required="" onchange="this.form.submit()" name="sort" >
+                <select class="form-select text-center" id="state" required="" onchange="this.form.submit()"
+                        name="sort">
                     <option class="text-align-right" value="">--sort books--</option>
-                    <option value="name-a-z">Name: a-z</option>
-                    <option value="name-z-a">Name: z-a</option>
-                    <option value="count-low-high">Count: low to high</option>
-                    <option value="count-high-low">Count: high to low</option>
+                    <option value="name" {% if request.session.sort == 'name' %}selected{% endif %}>
+                          Name: a-z
+                    </option>
+                    <option value="-name" {% if request.session.sort == '-name' %}selected{% endif %}>
+                          Name: z-a
+                    </option>
+                    <option value="count" {% if request.session.sort == 'count' %}selected{% endif %}>
+                           Count: low to high
+                    </option>
+                    <option value="-count" {% if request.session.sort == '-count' %}selected{% endif %}>
+                           Count: high to low
+                    </option>
                 </select>
             </div>
         </div>
@@ -80,6 +95,12 @@
     {% endfor %}
 
 </div>
+
+{% if books.has_other_pages %}
+
+     {% include 'books_pagination.html' %}
+
+{% endif %}
 
 {% endblock content %}
 

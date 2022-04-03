@@ -1,17 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from django.template.response import TemplateResponse
 from .models import Book
-from library.utils import search_books, sort_by
+from library.utils import search_sort_paginate_books
 
 
 def home_page(request):
-    return TemplateResponse(request, 'base.html')
+    return render(request, 'base.html')
 
 
 def book_list(request):
     books = Book.objects.all()
-    return render(request, 'book_list.html', {'books': sort_by(request, search_books(request, books)),
-
+    return search_sort_paginate_books(request, books, 'Books', 12)
 
 
 def book(request, id):
@@ -20,5 +18,8 @@ def book(request, id):
 
 def unordered_books(request):
     books = Book.objects.filter(orders=None)
-    return render(request, 'book_list.html', {'books': sort_by(request, search_books(request, books)),
-                                              'title': 'Unordered books'})
+    return search_sort_paginate_books(request, books, 'Unordered books', 12)
+
+
+def book(request, id):
+    return render(request, 'book.html', {'book': get_object_or_404(Book, id=id)})

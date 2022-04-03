@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models, IntegrityError
+from django.db.models import F, Subquery
 from django.db.utils import DataError
 from django.urls import reverse
 from book.models import Book
@@ -132,9 +133,16 @@ class CustomUser(PermissionsMixin, AbstractBaseUser):
         return reverse('authentication:user-books', kwargs={'id': self.id})
 
     def get_user_books(self):
-        orders = self.orders.select_related('book')
-        book_ids = orders.values_list('book__id', flat=True)
-        return Book.objects.filter(id__in=book_ids)
+        # book_ids = self.orders.values_list('book', flat=True)
+
+        # book_ids = self.orders.values('book')
+        # books = Book.objects.filter(id__in=book_ids)
+
+        books = Book.objects.filter(id__in=Subquery(self.orders.values('book')))
+        return books
+
+    def get_user_violator_books(self):
+        return self.get_user_books().filter(orders__created_at__lt=F('orders__end_at'))
 
     @staticmethod
     def get_by_id(user_id):

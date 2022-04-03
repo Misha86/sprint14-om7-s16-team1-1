@@ -1,0 +1,34 @@
+{% load static %}
+
+<nav aria-label="..." style="position: fixed; bottom: 0;">
+    <ul class="pagination">
+
+        <li class="page-item {% if not books.has_previous %} disabled {% endif %}">
+            <a class="page-link"
+               {% if books.has_previous %}
+                   href="{{request.path}}?page={{books.previous_page_number}}{% if request.session.sort %}&sort={{ request.session.sort }}{% endif %}{% if request.session.q %}&q={{ request.session.q }}{% endif %}"
+               {% endif %}>
+                   Previous
+            </a>
+        </li>
+
+        {% for page in books.paginator.page_range %}
+
+        <li class="page-item {% if page == books.number %} active {% endif %}">
+            <a class="page-link" href="{{request.path}}?page={{ page }}{% if request.session.sort %}&sort={{ request.session.sort }}{% endif %}{% if request.session.q %}&q={{ request.session.q }}{% endif %}">
+                {{ page }}
+            </a>
+        </li>
+
+        {% endfor %}
+
+        <li class="page-item {% if not books.has_next %} disabled {% endif %}">
+            <a class="page-link"
+               {% if books.has_next %}
+                   href="{{request.path}}?page={{books.next_page_number}}{% if request.session.sort %}&sort={{ request.session.sort }}{% endif %}{% if request.session.q %}&q={{ request.session.q }}{% endif %}"
+               {% endif %}>
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>

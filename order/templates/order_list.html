@@ -4,23 +4,23 @@
 
 {% block content %}
 
-<div class="col-md-9 col-lg-9">
+<div class="col-md-8 col-lg-8">
     <h2>{{title}}</h2>
 </div>
-<div class="col-md-3 col-lg-3 pull-right">
+<div class="col-md-4 col-lg-4 pull-right">
     <form class="needs-validation" action="{{request.path}}" method="get">
         <div class="row">
-            <div class="col-md-3 text-end" style="padding: 0;">
+            <div class="col-lg-3 col-md-3 text-end" style="padding: 0;">
                 <label for="state" class="form-label">Sort by:</label>
             </div>
-            <div class="col-md-9">
+            <div class="col-lg-9 col-md-9">
                 <select class="form-select text-center" id="state" required="" onchange="this.form.submit()"
                         name="sort">
                     <option class="text-align-right" value="">--sort orders--</option>
-                    <option value="created-high-low">Created date: high to low</option>
-                    <option value="created-low-high">Created date: low to high</option>
-                    <option value="plated-at-high-low">Plated at date: high to low</option>
-                    <option value="plated-at-low-high">Plated at date: low to high</option>
+                    <option value="created_at" {% if request.session.sort == 'created_at' %}selected{% endif %}>Created date: low to high</option>
+                        <option value="-created_at" {% if request.session.sort == '-created_at' %}selected{% endif %}>Created date: high to low</option>
+                        <option value="plated_end_at" {% if request.session.sort == 'plated_end_at' %}selected{% endif %}>Plated at date: low to high</option>
+                        <option value="-plated_end_at" {% if request.session.sort == '-plated_end_at' %}selected{% endif %}>Plated at date: high to low</option>
                 </select>
             </div>
         </div>
@@ -39,7 +39,7 @@
         <th>User</th>
         <th>Book</th>
         <th>Created at</th>
-        <th>End att</th>
+        <th>End at</th>
         <th>Plated end at</th>
     </tr>
     </thead>
@@ -65,8 +65,9 @@
             </a>
         </td>
         <td>
-            <a href="{% url 'book' order.book.id  %}" class="nav-link text-black" style="padding: 0;">
-                {% if not order.end_at %}  not yet  {% endif %}
+            <a href="{% url 'book' order.book.id  %}" class="nav-link text-black" style="padding: 0;
+            {% if not order.end_at %} color: green !important; {% endif %}">
+                {% if not order.end_at %}  not yet {% else %} {{order.end_at}} {% endif %}
             </a>
         </td>
         <td>
@@ -95,11 +96,6 @@ $(document).ready(function(){
     });
   });
 });
-
-
-
-
-
 
 </script>
 
