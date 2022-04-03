@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %}{{book.name}}{% endblock %}
+
+{% block content %}
+
+<h2 class="pb-2 border-bottom">{{book.name|upper}}</h2>
+<div class="row g-2">
+    <div class="col-md-6 col-lg-6">
+        <em class="border-bottom">
+            <strong>Author{% if book.authors.all.count > 1 %}s{% endif%}:</strong>
+            {% for author in book.authors.all %}
+            {{author.get_full_name}}{% if book.authors.all.last != author %},{% endif %}
+            {% endfor %}
+        </em>
+    </div>
+    <div class="col-md-6 col-lg-6 d-flex justify-content-end">
+        <em class="border-bottom">
+            <strong >Book count:</strong>
+            {{book.count}}
+        </em>
+    </div>
+</div>
+
+<div class="row g-2">
+    <div class="col-md-12 col-lg-12">
+        <p style="text-indent: 19px;">{{book.description}}</p>
+    </div>
+</div>
+
+{% endblock content %}
+

@@ -1,8 +1,12 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models, IntegrityError
 from django.db.utils import DataError
+from django.urls import reverse
+from book.models import Book
+
 
 ROLE_CHOICES = (
     (0, 'visitor'),
@@ -10,7 +14,39 @@ ROLE_CHOICES = (
 )
 
 
-class CustomUser(AbstractBaseUser):
+class MyUserManager(BaseUserManager):
+    def create_user(self, email, first_name, middle_name, last_name, password=None):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            first_name=first_name,
+            middle_name=middle_name,
+            last_name=last_name
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, first_name, middle_name, last_name, password=None):
+        """
+        Creates and saves a superuser with the given email and password.
+        """
+        user = self.create_user(email, first_name, middle_name,
+                                last_name, password)
+        user.is_admin = True
+        user.is_superuser = True
+        user.is_active = True
+        user.save(using=self._db)
+        return user
+
+
+class CustomUser(PermissionsMixin, AbstractBaseUser):
     """
         This class represents a basic user. \n
         Attributes:
@@ -46,8 +82,32 @@ class CustomUser(AbstractBaseUser):
     role = models.IntegerField(default=0, choices=ROLE_CHOICES)
     is_active = models.BooleanField(default=False)
 
+    is_admin = models.BooleanField(default=False)
+
+    objects = MyUserManager()
+
     USERNAME_FIELD = 'email'
-    objects = BaseUserManager()
+
+    REQUIRED_FIELDS = ['first_name', 'middle_name', 'last_name']
+
+    class Meta:
+        ordering = ['id']
+
+    @property
+    def is_staff(self):
+        """Is the user a member of staff?"""
+        # Simplest possible answer: All admins are staff
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        """Does the user have a specific permission?"""
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        """Does the user have permissions to view the app `app_label`?"""
+        # Simplest possible answer: Yes, always
+        return True
 
     def __str__(self):
         """
@@ -64,6 +124,17 @@ class CustomUser(AbstractBaseUser):
         :return: class, id
         """
         return f'{self.__class__.__name__}(id={self.id})'
+
+    def get_absolute_url(self):
+        return reverse('authentication:user-books', kwargs={'id': self.id})
+
+    def get_user_books(self):
+        # orders = self.orders.select_related('book')
+        # return [order.book for order in orders]
+        orders = self.orders.select_related('book')
+        book_ids = orders.values_list('book__id', flat=True)
+        # book_ids = [order.book.id for order in orders]
+        return Book.objects.filter(id__in=book_ids)
 
     @staticmethod
     def get_by_id(user_id):
