@@ -22,7 +22,15 @@
     </a>
     {% endif %}
 </div>
-<div class="col-md-4 col-lg-4 justify-content-right">
+<div class="col-md-1 col-lg-1">
+    <a href="" class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">
+        <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+            <use xlink:href="#additem"/>
+        </svg>
+        Add
+    </a>
+</div>
+<div class="col-md-3 col-lg-3 justify-content-right">
     <form action="{{request.path}}">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search book.." name="q">
@@ -65,6 +73,12 @@
 <hr class="my-1">
 </div>
 
+{% if books.has_other_pages %}
+
+     {% include 'books_pagination.html' %}
+
+{% endif %}
+
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
 
     {% for book in books %}
@@ -96,11 +110,7 @@
 
 </div>
 
-{% if books.has_other_pages %}
-
-     {% include 'books_pagination.html' %}
-
-{% endif %}
+{% include 'book_modal_form.html' %}
 
 {% endblock content %}
 
