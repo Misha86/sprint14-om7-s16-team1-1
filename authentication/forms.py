@@ -37,7 +37,7 @@ from .models import CustomUser
 #         return count
 
 
-class BuyerCreationForm(forms.ModelForm):
+class CustomUserForm(forms.ModelForm):
     """A form for creating new_profile users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label=_('Password'),
@@ -49,7 +49,7 @@ class BuyerCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'first_name', 'last_name', 'middle_name', 'sex', 'phone_number']
+        fields = ['email', 'first_name', 'last_name', 'middle_name']
 
     def clean_password1(self):
         password1 = self.cleaned_data.get("password1")

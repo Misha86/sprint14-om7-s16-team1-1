@@ -21,7 +21,7 @@ def author_list(request):
 def author_form(request, id=0):
     if request.is_ajax():
         data = ajax_form(request, Author, AuthorForm, "Add Author", "Update Author",
-                         url_name="author:author-list", url_arg=False, id=id)
+                         url_name="authentication:user-list", url_arg=False, id=id)
         return JsonResponse(data)
     return redirect('/')
 

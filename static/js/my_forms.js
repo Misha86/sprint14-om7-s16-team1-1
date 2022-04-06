@@ -35,7 +35,7 @@ $.ajaxSetup({
 
 $(function(){
 
-    $('a.showModel').off('click').on('click', function(event){
+    $('.showModel').off('click').on('click', function(event){
         event.preventDefault();
         var link = $(this);
 
@@ -47,7 +47,7 @@ $(function(){
         success: function(data) {
             $('#bookModal').replaceWith(data.form_html);
             $("#bookModal").modal("show");
-            console.log(data.form_html)
+//            console.log(data.form_html)
             }
         });
     });
