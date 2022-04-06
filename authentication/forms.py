@@ -58,12 +58,16 @@ class CustomUserLoginForm(forms.Form):
     password.
     """
     error_css_class = "error"
-    
-    email = forms.EmailField(label="", widget=forms.EmailInput(
+
+    email = forms.EmailField(widget=forms.EmailInput(
         attrs={'class': 'form-control', 'placeholder': _('Input email')}))
 
-    password = forms.CharField(label="", widget=forms.PasswordInput(
+    password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': _('Input password')}))
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super().__init__(*args, **kwargs)
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
