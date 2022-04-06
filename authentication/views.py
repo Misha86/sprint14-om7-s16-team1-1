@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 
 from order.models import Order
-from .forms import CustomUserForm
+from .forms import CustomUserForm, CustomUserLoginForm
 from .models import CustomUser
 from library.utils import search_sort_paginate_books, ajax_form
 
@@ -69,6 +69,32 @@ def user_form(request, id=0):
         title = "Registration" if id == 0 else "Update User"
         data['form_html'] = render_to_string('book_modal_form.html', {'form': form, "title": title}, request=request)
         return JsonResponse(data)
+    return redirect('/')
+
+
+def user_login(request):
+
+    if request.is_ajax():
+        data = dict()
+        if request.method == 'POST':
+            form = CustomUserLoginForm(request.POST)
+            if form.is_valid():
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+
+                user = auth.authenticate(username=email, password=password)
+
+                if user is not None and user.is_active:
+                    auth.login(request, user)
+                    data['form_valid'] = True
+                    data['redirect_path'] = reverse('home-page')
+        else:
+            form = CustomUserLoginForm()
+        title = "Login"
+        data['form_html'] = render_to_string('book_modal_form.html', {'form': form, "title": title}, request=request)
+
+        return JsonResponse(data)
+
     return redirect('/')
 
 

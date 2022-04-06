@@ -50,3 +50,34 @@ class CustomUserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class CustomUserLoginForm(forms.Form):
+    """
+    A form that creates a user, with no privileges, from the given username and
+    password.
+    """
+    error_css_class = "error"
+    
+    email = forms.EmailField(label="", widget=forms.EmailInput(
+        attrs={'class': 'form-control', 'placeholder': _('Input email')}))
+
+    password = forms.CharField(label="", widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': _('Input password')}))
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        email_exists = CustomUser.objects.filter(email=email).exists()
+        if not email_exists:
+            raise forms.ValidationError(_("User does not exist!"), code='email_exists')
+        else:
+            return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        email = self.cleaned_data.get("email")
+        user = CustomUser.objects.filter(email=email)
+        if user.exists() and user[0].check_password(password):
+            return password
+        elif user.exists() and password is not None:
+            raise forms.ValidationError(_("Invalid password!"))

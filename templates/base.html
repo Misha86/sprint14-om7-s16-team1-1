@@ -82,7 +82,7 @@
                                 </button>
                                 <button type="button" class="btn btn-primary">
                                     <a href="{% url 'authentication:user-logout' %}"
-                                       class="text-decoration-none" style="color: white;">
+                                       class="text-decoration-none text-light">
                                          Logout
                                     </a>
                                 </button>
@@ -93,7 +93,12 @@
                                         Registration
                                     </a>
                                 </button>
-                                <button type="button" class="btn btn-primary">Sign in</button>
+                                 <button type="button" class="btn btn-primary me-2">
+                                    <a href="{% url 'authentication:user-login' %}"
+                                       class="showModel text-decoration-none text-light">
+                                        Sign in
+                                    </a>
+                                </button>
                                 {% endif %}
                             </div>
                         </div>
