@@ -59,7 +59,7 @@ def search_sort_paginate_books(request, books, count_objects):
 
 
 def ajax_form(request, app_model, app_form, title_ad, title_up,
-              template='book_modal_form.html', url_name='book', url_arg=True, id=0):
+              template='modal_form.html', url_name='book', url_arg=True, id=0):
     data = dict()
     if request.method == 'POST':
         if id == 0:

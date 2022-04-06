@@ -37,13 +37,6 @@ def users_violators(request):
     return render(request, 'user_list.html', {'users': users, 'title': 'Users Violators'})
 
 
-# def user_form(request, id=0):
-#     if request.is_ajax():
-#         data = ajax_form(request, CustomUser, CustomUserForm, "Registration", "Update User",
-#                          url_name="authentication:user-list", url_arg=False, id=id)
-#         return JsonResponse(data)
-#     return redirect('/')
-
 def user_form(request, id=0):
     if request.is_ajax():
         data = dict()
@@ -67,7 +60,7 @@ def user_form(request, id=0):
                 book = get_object_or_404(CustomUser, id=id)
                 form = CustomUserForm(instance=book)
         title = "Registration" if id == 0 else "Update User"
-        data['form_html'] = render_to_string('book_modal_form.html', {'form': form, "title": title}, request=request)
+        data['form_html'] = render_to_string('modal_form.html', {'form': form, "title": title}, request=request)
         return JsonResponse(data)
     return redirect('/')
 
@@ -91,7 +84,7 @@ def user_login(request):
         else:
             form = CustomUserLoginForm()
         title = "Login"
-        data['form_html'] = render_to_string('book_modal_form.html', {'form': form, "title": title}, request=request)
+        data['form_html'] = render_to_string('modal_form.html', {'form': form, "title": title}, request=request)
 
         return JsonResponse(data)
 

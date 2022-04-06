@@ -75,7 +75,7 @@
 
                                 {% if request.user.is_authenticated %}
                                 <button type="button" class="btn btn-light text-dark me-2">
-                                    <a href="{% url 'authentication:user-registration' %}"
+                                    <a href="{% url 'authentication:user-update' request.user.id %}"
                                        class="showModel text-decoration-none" style="color: grey;">
                                          Update Account
                                     </a>
@@ -154,6 +154,7 @@
         <div class="row g-3">
 
             {% block content %}
+
             <style>
             body {
                background-image: url({% static "VIRAL.jpg" %});
@@ -161,10 +162,8 @@
                background-position: center;
                background-attachment: fixed;
             }
-
-
-
             </style>
+
             {% endblock content %}
 
         </div>
@@ -173,7 +172,7 @@
 </main>
 <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
 
-{% include 'book_modal_form.html' %}
+{% include 'modal_form.html' %}
 
 </body>
 </html>
