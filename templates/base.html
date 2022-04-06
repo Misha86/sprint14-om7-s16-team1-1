@@ -50,8 +50,9 @@
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
     </symbol>
     <symbol id="updateitem" viewBox="0 0 16 16">
-         <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
-          <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+        <path fill-rule="evenodd"
+              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
     </symbol>
 </svg>
 <main>
@@ -63,11 +64,42 @@
                        class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                         <h1>Library</h1>
                     </a>
+                    {% if request.user.is_authenticated %}
+                    <h4 class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white">
+                        User: {{request.user.get_full_name}}
+                    </h4>
+                    {% endif %}
                     <div class="px-3 py-2">
                         <div class="container d-flex flex-wrap justify-content-right">
                             <div class="text-end">
-                                <button type="button" class="btn btn-light text-dark me-2">Login</button>
-                                <button type="button" class="btn btn-primary">Sign-up</button>
+
+                                {% if request.user.is_authenticated %}
+                                <button type="button" class="btn btn-light text-dark me-2">
+                                    <a href="{% url 'authentication:user-update' request.user.id %}"
+                                       class="showModel text-decoration-none" style="color: grey;">
+                                         Update Account
+                                    </a>
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    <a href="{% url 'authentication:user-logout' %}"
+                                       class="text-decoration-none text-light">
+                                         Logout
+                                    </a>
+                                </button>
+                                 {% else %}
+                                <button type="button" class="btn btn-light text-dark me-2">
+                                    <a href="{% url 'authentication:user-registration' %}"
+                                       class="showModel text-decoration-none" style="color: grey;">
+                                        Registration
+                                    </a>
+                                </button>
+                                 <button type="button" class="btn btn-primary me-2">
+                                    <a href="{% url 'authentication:user-login' %}"
+                                       class="showModel text-decoration-none text-light">
+                                        Sign in
+                                    </a>
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -122,6 +154,7 @@
         <div class="row g-3">
 
             {% block content %}
+
             <style>
             body {
                background-image: url({% static "VIRAL.jpg" %});
@@ -129,9 +162,8 @@
                background-position: center;
                background-attachment: fixed;
             }
-
-
             </style>
+
             {% endblock content %}
 
         </div>
@@ -139,5 +171,8 @@
 
 </main>
 <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+
+{% include 'modal_form.html' %}
+
 </body>
 </html>
