@@ -35,7 +35,7 @@ $.ajaxSetup({
 
 $(function(){
 
-    $('#showModel').off('click').on('click', function(event){
+    $('a.showModel').off('click').on('click', function(event){
         event.preventDefault();
         var link = $(this);
 
