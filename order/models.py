@@ -11,7 +11,7 @@ class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="orders")
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="orders")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    end_at = models.DateTimeField(null=True)
+    end_at = models.DateTimeField(null=True, blank=True)
     plated_end_at = models.DateTimeField()
 
     def __str__(self):
