@@ -4,7 +4,6 @@ from django import forms
 from .models import CustomUser
 
 
-
 class CustomUserForm(forms.ModelForm):
     """A form for creating new_profile users. Includes all the required
     fields, plus a repeated password."""
@@ -21,10 +20,9 @@ class CustomUserForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super().__init__(*args, **kwargs)
         self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': _('Input email')})
-        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': _('Input first_name')})
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': _('Input first name')})
         self.fields['last_name'].widget.attrs.update({'class': 'form-control', 'placeholder': _('Input last name')})
         self.fields['middle_name'].widget.attrs.update({'class': 'form-control', 'placeholder': _('Input middle name')})
-
 
     class Meta:
         model = CustomUser

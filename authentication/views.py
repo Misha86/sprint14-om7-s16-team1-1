@@ -1,6 +1,9 @@
+from django.contrib import auth
 from django.db.models import F, Exists, OuterRef
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
+from django.urls import reverse
 
 from order.models import Order
 from .forms import CustomUserForm
@@ -34,9 +37,41 @@ def users_violators(request):
     return render(request, 'user_list.html', {'users': users, 'title': 'Users Violators'})
 
 
+# def user_form(request, id=0):
+#     if request.is_ajax():
+#         data = ajax_form(request, CustomUser, CustomUserForm, "Registration", "Update User",
+#                          url_name="authentication:user-list", url_arg=False, id=id)
+#         return JsonResponse(data)
+#     return redirect('/')
+
 def user_form(request, id=0):
     if request.is_ajax():
-        data = ajax_form(request, CustomUser, CustomUserForm, "Registration", "Update User",
-                         url_name="authentication:user-list", url_arg=False, id=id)
+        data = dict()
+        if request.method == 'POST':
+            if id == 0:
+                form = CustomUserForm(request.POST)
+            else:
+                obj = get_object_or_404(CustomUser, id=id)
+                form = CustomUserForm(request.POST, instance=obj)
+            if form.is_valid():
+                password = form.cleaned_data['password2']
+                user = form.save()
+                new_user = auth.authenticate(username=user.email, password=password)
+                auth.login(request, new_user)
+                data['form_valid'] = True
+                data['redirect_path'] = reverse('home-page')
+        else:
+            if id == 0:
+                form = CustomUserForm()
+            else:
+                book = get_object_or_404(CustomUser, id=id)
+                form = CustomUserForm(instance=book)
+        title = "Registration" if id == 0 else "Update User"
+        data['form_html'] = render_to_string('book_modal_form.html', {'form': form, "title": title}, request=request)
         return JsonResponse(data)
+    return redirect('/')
+
+
+def user_logout(request):
+    auth.logout(request)
     return redirect('/')
