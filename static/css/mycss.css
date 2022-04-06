@@ -37,10 +37,13 @@ ul.errorlist li {
    font-style: italic;
    color: red;
    display: block;
-   margin-left: 5rem;
+   text-align: center;
+
 }
 
 .error {
    color: red;
+   font-weight: 700;
+   font-style: italic;
 }
 
