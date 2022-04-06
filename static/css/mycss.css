@@ -27,3 +27,20 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
+
+ul.errorlist {
+    margin-bottom: 0;
+}
+
+ul.errorlist li {
+   list-style-type: none;
+   font-style: italic;
+   color: red;
+   display: block;
+   margin-left: 5rem;
+}
+
+.error {
+   color: red;
+}
+

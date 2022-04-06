@@ -13,10 +13,8 @@ def home_page(request):
 
 def book_list(request):
     books = search_sort_paginate_books(request, Book.objects.all(), 12)
-    # form = BookForm()
     context = {'title': 'Books',
                'books': books}
-    # 'form': form}
     return render(request, 'book_list.html', context)
 
 
@@ -26,52 +24,34 @@ def book(request, id):
 
 def unordered_books(request):
     books = search_sort_paginate_books(request, Book.objects.filter(orders=None), 12)
-    form = BookForm()
     context = {'title': 'Unordered books',
-               'books': books,
-               'form': form}
+               'books': books}
     return render(request, 'book_list.html', context)
 
 
-def book_form(request):
+def book_form(request, id=0):
     if request.is_ajax():
         data = dict()
         if request.method == 'POST':
-            form = BookForm(request.POST)
+            if id == 0:
+                form = BookForm(request.POST)
+            else:
+                book = get_object_or_404(Book, id=id)
+                form = BookForm(request.POST, instance=book)
             if form.is_valid():
                 book_saved = form.save()
                 data['form_valid'] = True
                 data['redirect_path'] = reverse('book', kwargs={'id': book_saved.id})
         else:
-            form = BookForm()
-        data['form_html'] = render_to_string('book_modal_form.html', {'form': form}, request=request)
+            if id == 0:
+                form = BookForm()
+            else:
+                book = get_object_or_404(Book, id=id)
+                form = BookForm(instance=book)
+        title = "Add Book" if id == 0 else "Update Book"
+        data['form_html'] = render_to_string('book_modal_form.html', {'form': form, "title": title}, request=request)
         return JsonResponse(data)
-
     return redirect('/')
-
-# def book_form(request, id=0):
-#     if request.is_ajax():
-#         data = {}
-#         if request.method == "GET":
-#             if id == 0:
-#                 form = BookForm()
-#             else:
-#                 book = get_object_or_404(Book, id=id)
-#                 form = BookForm(instance=book)
-#         else:
-#             if id == 0:
-#                 form = BookForm(request.POST)
-#             else:
-#                 book = get_object_or_404(Book, id=id)
-#                 form = BookForm(request.POST, instance=book)
-#             if form.is_valid():
-#                 book_saved = form.save()
-#                 data['form_valid'] = True
-#                 data['redirect_path'] = reverse('book', kwargs={'id': book_saved.id})
-#                 return JsonResponse(data)
-#         data['form_html'] = render_to_string('book_modal_form.html', {'form': form}, request=request)
-#         return JsonResponse(data)
-#     return redirect('/')
 
 
 # def book_form(request, id=0):

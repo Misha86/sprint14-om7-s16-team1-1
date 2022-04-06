@@ -11,6 +11,7 @@ class CustomSelectMultiple(forms.ModelMultipleChoiceField):
 
 
 class BookForm(forms.ModelForm):
+    error_css_class = "error"
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
