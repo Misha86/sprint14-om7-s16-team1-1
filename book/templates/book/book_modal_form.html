@@ -12,7 +12,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="book-form" action="{% url 'book-add' %}" method="post">
+                <form id="book-form" action="{{ request.path }}" method="post">
                     <div class="form-group">
                         {% csrf_token %}
                         {{form.as_p}}

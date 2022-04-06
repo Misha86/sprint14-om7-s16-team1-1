@@ -4,7 +4,17 @@
 
 {% block content %}
 
-<h2>{{title}}</h2>
+<div class="col-md-2 col-lg-2">
+    <h2>{{title}}</h2>
+</div>
+<div class="col-md-1 col-lg-1">
+    <a id="showModel" href="{% url 'author:author-add' %}" class="nav-link">
+        <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+            <use xlink:href="#additem"/>
+        </svg>
+        Add
+    </a>
+</div>
 <hr class="my-1">
 <input class="form-control" id="myInput" type="text" placeholder="Search..">
 <br>
@@ -68,6 +78,8 @@ $(document).ready(function(){
 });
 
 </script>
+
+{% include 'book_modal_form.html' %}
 
 {% endblock %}
 
