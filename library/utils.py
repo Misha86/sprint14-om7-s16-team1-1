@@ -58,18 +58,20 @@ def search_sort_paginate_books(request, books, count_objects):
     return books_pages
 
 
-def ajax_form(request, app_model, app_form, title_ad, title_up, template='book_modal_form.html', id=0):
+def ajax_form(request, app_model, app_form, title_ad, title_up,
+              template='book_modal_form.html', url_name='book', url_arg=True, id=0):
     data = dict()
     if request.method == 'POST':
         if id == 0:
             form = app_form(request.POST)
         else:
-            book = get_object_or_404(app_model, id=id)
-            form = app_form(request.POST, instance=book)
+            obj = get_object_or_404(app_model, id=id)
+            form = app_form(request.POST, instance=obj)
         if form.is_valid():
-            book_saved = form.save()
+            obj_saved = form.save()
+            kwargs = {'id': obj_saved.id} if url_arg else None
             data['form_valid'] = True
-            data['redirect_path'] = reverse('book', kwargs={'id': book_saved.id})
+            data['redirect_path'] = reverse(url_name, kwargs=kwargs)
     else:
         if id == 0:
             form = app_form()

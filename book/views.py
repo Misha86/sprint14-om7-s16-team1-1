@@ -35,25 +35,3 @@ def book_form(request, id=0):
         return JsonResponse(data)
     return redirect('/')
 
-
-def ajax_form(request, app_model, app_form, title_ad, title_up, template='book_modal_form.html', id=0):
-    data = dict()
-    if request.method == 'POST':
-        if id == 0:
-            form = app_form(request.POST)
-        else:
-            book = get_object_or_404(app_model, id=id)
-            form = app_form(request.POST, instance=book)
-        if form.is_valid():
-            book_saved = form.save()
-            data['form_valid'] = True
-            data['redirect_path'] = reverse('book', kwargs={'id': book_saved.id})
-    else:
-        if id == 0:
-            form = app_form()
-        else:
-            book = get_object_or_404(app_model, id=id)
-            form = app_form(instance=book)
-    title = title_ad if id == 0 else title_up
-    data['form_html'] = render_to_string(template, {'form': form, "title": title}, request=request)
-    return data
