@@ -37,6 +37,6 @@ def users_violators(request):
 def user_form(request, id=0):
     if request.is_ajax():
         data = ajax_form(request, CustomUser, CustomUserForm, "Registration", "Update User",
-                         url_name="author:author-list", url_arg=False, id=id)
+                         url_name="authentication:user-list", url_arg=False, id=id)
         return JsonResponse(data)
     return redirect('/')
