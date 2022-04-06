@@ -9,7 +9,7 @@
         <h2 class="pb-2">{{book.name|upper}}</h2>
     </div>
     <div class="col-md-2 col-lg-2">
-        <a id="showModel" href="{% url 'book-update' book.id %}" class="nav-link">
+        <a href="{% url 'book-update' book.id %}" class="showModel nav-link">
             <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
                 <use xlink:href="#updateitem"/>
             </svg>
