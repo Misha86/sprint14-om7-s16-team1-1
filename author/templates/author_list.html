@@ -4,7 +4,17 @@
 
 {% block content %}
 
-<h2>{{title}}</h2>
+<div class="col-md-2 col-lg-2">
+    <h2>{{title}}</h2>
+</div>
+<div class="col-md-1 col-lg-1">
+    <a href="{% url 'author:author-add' %}" class="showModel nav-link">
+        <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+            <use xlink:href="#additem"/>
+        </svg>
+        Add
+    </a>
+</div>
 <hr class="my-1">
 <input class="form-control" id="myInput" type="text" placeholder="Search..">
 <br>
@@ -17,6 +27,9 @@
         <th>Surname</th>
         <th>Patronymic</th>
         <th>Book count</th>
+        <th style="text-align: center; color: #0d6efd;">
+            Update Author
+        </th>
     </tr>
     </thead>
     <tbody id="myTable">
@@ -45,6 +58,14 @@
                 {{author.books.all.count }}
             </a>
         </td>
+        <td>
+            <a href="{% url 'author:author-update' author.id %}" class="showModel nav-link">
+                <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+                    <use xlink:href="#updateitem"/>
+                </svg>
+                Update
+            </a>
+        </td>
     </tr>
 
     {% empty %}
@@ -55,7 +76,6 @@
 
     </tbody>
 </table>
-
 
 <script>
 $(document).ready(function(){
@@ -68,6 +88,8 @@ $(document).ready(function(){
 });
 
 </script>
+
+{% include 'modal_form.html' %}
 
 {% endblock %}
 

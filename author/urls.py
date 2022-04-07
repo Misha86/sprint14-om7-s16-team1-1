@@ -6,4 +6,6 @@ app_name = 'author'
 urlpatterns = [
     path('list/', views.author_list, name='author-list'),
     path('books/<int:id>/', views.author_books, name='author-books'),
+    path('add/', views.author_form, name='author-add'),
+    path('<int:id>/', views.author_form, name='author-update'),
 ]

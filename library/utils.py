@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.template.loader import render_to_string
+from django.urls import reverse
 
 
 def search_books(request, books):
@@ -44,7 +46,32 @@ def pagination_objects(request, objects_all, count_objects=2):
     return books
 
 
-def search_sort_paginate_books(request, books, title, count_objects, html='book_list.html'):
+def search_sort_paginate_books(request, books, count_objects):
     sorted_books = sort_by(request, search_books(request, books))
     books_pages = pagination_objects(request, sorted_books, count_objects)
-    return render(request, html, {'books': books_pages, 'title': title})
+    return books_pages
+
+
+def ajax_form(request, app_model, app_form, title_ad, title_up,
+              template='modal_form.html', url_name='book', url_arg=True, id=0):
+    data = dict()
+    if request.method == 'POST':
+        if id == 0:
+            form = app_form(request.POST)
+        else:
+            obj = get_object_or_404(app_model, id=id)
+            form = app_form(request.POST, instance=obj)
+        if form.is_valid():
+            obj_saved = form.save()
+            kwargs = {'id': obj_saved.id} if url_arg else None
+            data['form_valid'] = True
+            data['redirect_path'] = reverse(url_name, kwargs=kwargs)
+    else:
+        if id == 0:
+            form = app_form()
+        else:
+            book = get_object_or_404(app_model, id=id)
+            form = app_form(instance=book)
+    title = title_ad if id == 0 else title_up
+    data['form_html'] = render_to_string(template, {'form': form, "title": title}, request=request)
+    return data

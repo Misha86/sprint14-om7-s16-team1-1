@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.template.loader import render_to_string
+
 from .models import Book
-from library.utils import search_sort_paginate_books
+from .forms import BookForm
+from library.utils import search_sort_paginate_books, ajax_form
 
 
 def home_page(request):
@@ -8,8 +12,10 @@ def home_page(request):
 
 
 def book_list(request):
-    books = Book.objects.all()
-    return search_sort_paginate_books(request, books, 'Books', 12)
+    books = search_sort_paginate_books(request, Book.objects.all(), 12)
+    context = {'title': 'Books',
+               'books': books}
+    return render(request, 'book_list.html', context)
 
 
 def book(request, id):
@@ -17,9 +23,15 @@ def book(request, id):
 
 
 def unordered_books(request):
-    books = Book.objects.filter(orders=None)
-    return search_sort_paginate_books(request, books, 'Unordered books', 12)
+    books = search_sort_paginate_books(request, Book.objects.filter(orders=None), 12)
+    context = {'title': 'Unordered books',
+               'books': books}
+    return render(request, 'book_list.html', context)
 
 
-def book(request, id):
-    return render(request, 'book.html', {'book': get_object_or_404(Book, id=id)})
+def book_form(request, id=0):
+    if request.is_ajax():
+        data = ajax_form(request, Book, BookForm, "Add Book", "Update Book", id=id)
+        return JsonResponse(data)
+    return redirect('/')
+

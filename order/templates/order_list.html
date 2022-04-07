@@ -4,8 +4,16 @@
 
 {% block content %}
 
-<div class="col-md-8 col-lg-8">
+<div class="col-md-2 col-lg-2">
     <h2>{{title}}</h2>
+</div>
+<div class="col-md-6 col-lg-6">
+    <a href="{% url 'order:order-add' %}" class="showModel nav-link">
+        <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+            <use xlink:href="#additem"/>
+        </svg>
+        Add
+    </a>
 </div>
 <div class="col-md-4 col-lg-4 pull-right">
     <form class="needs-validation" action="{{request.path}}" method="get">
@@ -41,6 +49,9 @@
         <th>Created at</th>
         <th>End at</th>
         <th>Plated end at</th>
+        <th style="text-align: center; color: #0d6efd;">
+            Update Order
+        </th>
     </tr>
     </thead>
     <tbody id="myTable">
@@ -75,6 +86,14 @@
                 {{order.plated_end_at }}
             </a>
         </td>
+        <td>
+            <a href="{% url 'order:order-update' order.id %}" class="showModel nav-link">
+                <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+                    <use xlink:href="#updateitem"/>
+                </svg>
+                Update
+            </a>
+        </td>
     </tr>
 
     {% empty %}
@@ -98,6 +117,8 @@ $(document).ready(function(){
 });
 
 </script>
+
+{% include 'modal_form.html' %}
 
 {% endblock %}
 
