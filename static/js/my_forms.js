@@ -47,7 +47,7 @@ $(function(){
         success: function(data) {
             $('#bookModal').replaceWith(data.form_html);
             $("#bookModal").modal("show");
-            console.log(data.form_html)
+//            console.log(data.form_html)
             }
         });
     });

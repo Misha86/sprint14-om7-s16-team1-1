@@ -49,6 +49,9 @@
         <th>Created at</th>
         <th>End at</th>
         <th>Plated end at</th>
+        <th style="text-align: center; color: #0d6efd;">
+            Update Order
+        </th>
     </tr>
     </thead>
     <tbody id="myTable">
@@ -81,6 +84,14 @@
         <td>
             <a href="{% url 'book' order.book.id  %}" class="nav-link text-black" style="padding: 0;">
                 {{order.plated_end_at }}
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'order:order-update' order.id %}" class="showModel nav-link">
+                <svg class="bi mx-auto mb-1 align-middle" width="24" height="24">
+                    <use xlink:href="#updateitem"/>
+                </svg>
+                Update
             </a>
         </td>
     </tr>
