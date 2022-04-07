@@ -39,17 +39,23 @@ class OrderForm(forms.ModelForm):
     book = BookSelect(queryset=Book.objects.all(), widget=forms.Select)
 
     def clean_plated_end_at(self):
-        created_at = self.cleaned_data.get('created_at')
         plated_end_at = self.cleaned_data['plated_end_at']
-        date = created_at if created_at else timezone.now()
+        date = timezone.now()
         if plated_end_at < date:
             raise ValidationError(_("Plated end at date must be more as creation date !"))
+        if plated_end_at:
+            value = timezone.datetime.combine(plated_end_at.date(), timezone.now().time(),
+                                              tzinfo=timezone.get_current_timezone())
+            return value
         return plated_end_at
 
     def clean_end_at(self):
-        created_at = self.cleaned_data.get('created_at')
         end_at = self.cleaned_data['end_at']
-        date = created_at if created_at else timezone.now()
+        date = timezone.now()
         if end_at and end_at < date:
             raise ValidationError(_("End at date must be more as creation date !"))
+        if end_at:
+            value = timezone.datetime.combine(end_at.date(), timezone.now().time(),
+                                              tzinfo=timezone.get_current_timezone())
+            return value
         return end_at
