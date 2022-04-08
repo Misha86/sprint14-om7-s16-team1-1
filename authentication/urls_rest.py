@@ -1,29 +1,12 @@
 from django.urls import path
-from authentication import views_rest
+from . import views_rest, serializers
 
-# user_list = views_rest.CustomUserViewSet.as_view({
-#     'get': 'list',
-#     'post': 'create'
-# })
-# #
-# snippet_detail = CustomUserViewSet.as_view({
-#     'get': 'retrieve',
-#     'put': 'update',
-#     'patch': 'partial_update',
-#     'delete': 'destroy'
-# })
-#
-# user_list = CustomUserViewSet.as_view({
-#     'get': 'list'
-# })
-#
-# user_detail = views_rest.CustomUserDetailViewSet.as_view({
-#     'get': 'retrieve'
-# })
 
 app_name = "authentication"
 
 urlpatterns = [
     path('', views_rest.CustomUserViewSet.as_view(), name='user-list'),
-    path('<int:pk>/', views_rest.CustomUserDetailViewSet.as_view(), name='user-detail')
+    path('<int:pk>/', views_rest.CustomUserDetailViewSet.as_view(), name='user-detail'),
+    path('<int:user_pk>/order/<int:order_pk>', views_rest.UserOrderDetailViewSet.as_view(), name='user-order-detail')
+    # path('<int:user_pk>/order/<int:order_pk>', serializers.CustomerHyperlink.get_object(), name='user-order-detail')
 ]
