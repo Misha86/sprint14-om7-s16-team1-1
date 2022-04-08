@@ -13,7 +13,7 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CustomUserDetailSerializer(serializers.ModelSerializer):
-    orders = serializers.PrimaryKeyRelatedField(many=True, queryset=Order.objects.all())
+    orders = serializers.PrimaryKeyRelatedField(many=True, queryset=Order.objects.all()) # view_name='snippet-detail' change queryset=Order.objects.all()
 
     class Meta:
         model = CustomUser
