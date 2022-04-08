@@ -1,9 +1,8 @@
 from rest_framework import generics
-from rest_framework import permissions
 from rest_framework.generics import get_object_or_404
 
 from order.models import Order
-from order.serializers import OrderDetailSerializer
+from serializers import OrderDetailSerializer
 from .serializers import CustomUserSerializer, CustomUserDetailSerializer
 from .models import CustomUser
 from .permissions import IsAdmOrIsOwnerOrReadOnly
