@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from order.models import Order
 from .models import CustomUser
 
 
@@ -11,8 +13,10 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CustomUserDetailSerializer(serializers.ModelSerializer):
+    orders = serializers.PrimaryKeyRelatedField(many=True, queryset=Order.objects.all())
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name', 'middle_name', 'last_name', 'role', 'is_active']
+        fields = ['id', 'email', 'first_name', 'middle_name', 'last_name', 'role', 'is_active', 'orders']
 
 

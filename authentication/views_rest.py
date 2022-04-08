@@ -1,8 +1,9 @@
-from rest_framework import viewsets, generics
+from rest_framework import generics
 from rest_framework import permissions
 
 from .serializers import CustomUserSerializer, CustomUserDetailSerializer
 from .models import CustomUser
+from .permissions import IsAdmOrIsOwnerOrReadOnly
 
 
 class CustomUserViewSet(generics.ListAPIView):
@@ -13,4 +14,6 @@ class CustomUserViewSet(generics.ListAPIView):
 class CustomUserDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserDetailSerializer
+    permission_classes = [IsAdmOrIsOwnerOrReadOnly]
+
 
