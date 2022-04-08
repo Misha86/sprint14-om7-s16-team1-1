@@ -1,12 +1,16 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework import permissions
 
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, CustomUserDetailSerializer
 from .models import CustomUser
 
 
-class CustomUserViewSet(viewsets.ModelViewSet):
+class CustomUserViewSet(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+
+class CustomUserDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserDetailSerializer
 
