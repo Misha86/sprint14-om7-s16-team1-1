@@ -1,11 +1,7 @@
 from rest_framework import generics
-from rest_framework import permissions
 
 from .serializers import OrderSerializer, OrderDetailSerializer
 from order.models import Order
-from .permissions import IsAdmOrIsOwnerOrReadOnly
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
 
 
 class OrderViewSet(generics.ListAPIView):
