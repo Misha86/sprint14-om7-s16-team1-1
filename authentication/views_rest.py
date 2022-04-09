@@ -1,15 +1,14 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
-
 from order.models import Order
 from .serializers import CustomUserSerializer, CustomUserDetailSerializer, UserOrderDetailSerializer
 from .models import CustomUser
-from .permissions import IsAdmOrIsOwnerOrReadOnly
+from .permissions import IsAdmOrIsOwnerOrReadOnly, IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 
-class CustomUserViewSet(generics.ListAPIView):
+class CustomUserGenerics(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
@@ -19,23 +18,25 @@ class CustomUserViewSet(generics.ListAPIView):
     search_fields = ['orders__book__name']
 
 
-class CustomUserDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+class CustomUserDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserDetailSerializer
 
     permission_classes = [IsAdmOrIsOwnerOrReadOnly]
 
 
-class UserOrderDetailViewSet(generics.RetrieveAPIView):
+class UserOrderDetailGenerics(generics.RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = UserOrderDetailSerializer
+    multiple_lookup_fields = ('user_id', 'id')
 
     def get_object(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        user_pk = self.kwargs['user_pk']
-        order_pk = self.kwargs['order_pk']
-        obj = get_object_or_404(queryset.filter(user_id=user_pk), id=order_pk)
-        # May raise a permission denied
+        queryset = self.get_queryset()
+        filter = {}
+        for field in self.multiple_lookup_fields:
+            filter[field] = self.kwargs[field]
+
+        obj = get_object_or_404(queryset, **filter)
         self.check_object_permissions(self.request, obj)
         return obj
 
