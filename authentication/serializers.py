@@ -42,3 +42,11 @@ class CustomUserDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'first_name', 'middle_name', 'last_name', 'role', 'is_active', 'orders']
 
 
+class UserOrderDetailSerializer(serializers.ModelSerializer):
+    book = serializers.SlugRelatedField(read_only=True, slug_field='name')
+
+    class Meta:
+        model = Order
+        fields = ['id', 'user', 'book', 'created_at', 'end_at', 'plated_end_at']
+
+

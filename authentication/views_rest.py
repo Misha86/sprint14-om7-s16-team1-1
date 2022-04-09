@@ -2,8 +2,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 
 from order.models import Order
-from serializers import OrderDetailSerializer
-from .serializers import CustomUserSerializer, CustomUserDetailSerializer
+from .serializers import CustomUserSerializer, CustomUserDetailSerializer, UserOrderDetailSerializer
 from .models import CustomUser
 from .permissions import IsAdmOrIsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
@@ -29,7 +28,7 @@ class CustomUserDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
 
 class UserOrderDetailViewSet(generics.RetrieveAPIView):
     queryset = Order.objects.all()
-    serializer_class = OrderDetailSerializer
+    serializer_class = UserOrderDetailSerializer
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
