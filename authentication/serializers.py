@@ -8,7 +8,6 @@ from .models import CustomUser
 
 class CustomerHyperlink(serializers.HyperlinkedRelatedField):
     view_name = 'authentication:user-order-detail'
-    queryset = Order.objects.all()
 
     def get_url(self, obj, view_name, request, format):
         url_kwargs = {
@@ -41,8 +40,9 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CustomUserDetailSerializer(serializers.ModelSerializer):
-    # orders = serializers.HyperlinkedRelatedField(many=True, view_name='authentication:user-order-detail', read_only=True)
-    orders = CustomerHyperlink(many=True)
+    # orders = serializers.HyperlinkedRelatedField(many=True,
+    #                                              view_name='authentication:user-order-detail', read_only=True)
+    orders = CustomerHyperlink(many=True, read_only=True)
 
     class Meta:
         model = CustomUser
