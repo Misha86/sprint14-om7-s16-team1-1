@@ -12,7 +12,7 @@ def validator_password(password):
     try:
         validate_password(password)
     except exceptions.ValidationError as e:
-        errors['new_password'] = list(e.messages)
+        errors['password'] = list(e.messages)
 
     if errors:
         raise serializers.ValidationError(errors)
@@ -43,6 +43,7 @@ class CustomUserFullNameField(serializers.RelatedField):
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='authentication:user-detail', lookup_field='pk')
+    role = serializers.CharField(source='get_role_display')
 
     password = serializers.CharField(write_only=True, required=True, help_text='Leave empty if no change needed',
                                      style={'input_type': 'password', 'placeholder': 'Password'},
@@ -58,9 +59,8 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CustomUserDetailSerializer(serializers.ModelSerializer):
-
     orders = CustomerHyperlink(many=True, read_only=True)
-
+    role = serializers.CharField(source='get_role_display')
     new_password = serializers.CharField(write_only=True, allow_blank=True,
                                          style={'input_type': 'password', 'placeholder': 'New Password'})
 
@@ -97,6 +97,7 @@ class CustomUserDetailSerializer(serializers.ModelSerializer):
 class UserOrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     book = serializers.SlugRelatedField(read_only=True, slug_field='name')
     user = CustomUserFullNameField(read_only=True)
+    # user = serializers.CharField(source='user.get_full_name')
 
     # url = serializers.HyperlinkedIdentityField(view_name='order:order-detail', lookup_field='pk')
 
