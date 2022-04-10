@@ -16,7 +16,8 @@ ROLE_CHOICES = (
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, first_name, middle_name, last_name, password=None):
+    def create_user(self, email, first_name, middle_name, last_name,
+                    password=None, role=0, is_admin=False, is_active=True):
         """
         Creates and saves a User with the given email and password.
         """
@@ -27,7 +28,10 @@ class MyUserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name,
             middle_name=middle_name,
-            last_name=last_name
+            last_name=last_name,
+            role=role,
+            is_admin=is_admin,
+            is_active=is_active
         )
 
         user.set_password(password)
