@@ -1,21 +1,10 @@
 from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers, exceptions
+from rest_framework import serializers
 from rest_framework.reverse import reverse
 from django.contrib.auth.hashers import make_password
 
 from order.models import Order
 from .models import CustomUser
-
-
-# def validator_password(password):
-#     errors = dict()
-#     try:
-#         validate_password(password)
-#     except exceptions.ValidationError as e:
-#         errors['password'] = list(e.messages)
-#
-#     if errors:
-#         raise serializers.ValidationError(errors)
 
 
 class CustomerHyperlink(serializers.HyperlinkedRelatedField):
@@ -39,11 +28,9 @@ class CustomerHyperlink(serializers.HyperlinkedRelatedField):
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='authentication:user-detail', lookup_field='pk')
 
-    password = serializers.CharField(required=True, help_text='Leave empty if no change needed',
+    password = serializers.CharField(write_only=True, required=True, help_text='Leave empty if no change needed',
                                      style={'input_type': 'password', 'placeholder': 'Password'},
                                      validators=[validate_password])
-
-    # write_only = True,
 
     class Meta:
         model = CustomUser
