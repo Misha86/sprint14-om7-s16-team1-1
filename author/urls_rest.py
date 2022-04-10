@@ -1,13 +1,5 @@
 from django.urls import path, include
 from . import views_rest
-from rest_framework import routers
-
-# router = routers.DefaultRouter()
-# router.register('authors', views_rest.AuthorView)
-#
-# urlpatterns = [
-#     path('', include(router.urls))
-# ]
 
 
 app_name = "author"
