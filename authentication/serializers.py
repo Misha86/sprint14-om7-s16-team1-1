@@ -36,11 +36,6 @@ class CustomerHyperlink(serializers.HyperlinkedRelatedField):
         return self.get_queryset().get(**lookup_kwargs)
 
 
-class CustomUserFullNameField(serializers.RelatedField):
-    def to_representation(self, value):
-        return value.get_full_name()
-
-
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='authentication:user-detail', lookup_field='pk')
     role = serializers.CharField(source='get_role_display')
@@ -96,11 +91,10 @@ class CustomUserDetailSerializer(serializers.ModelSerializer):
 
 class UserOrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     book = serializers.SlugRelatedField(read_only=True, slug_field='name')
-    user = CustomUserFullNameField(read_only=True)
-    # user = serializers.CharField(source='user.get_full_name')
+    user = serializers.CharField(source='user.get_full_name')
 
-    # url = serializers.HyperlinkedIdentityField(view_name='order:order-detail', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='order:order-detail', lookup_field='pk')
 
     class Meta:
         model = Order
-        fields = ['id', 'user', 'book', 'created_at', 'end_at', 'plated_end_at']
+        fields = ['url', 'id', 'user', 'book', 'created_at', 'end_at', 'plated_end_at']

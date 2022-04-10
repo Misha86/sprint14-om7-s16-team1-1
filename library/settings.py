@@ -160,5 +160,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.AdminRenderer',
     ],
 
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
+    # 'DATETIME_INPUT_FORMATS': ["%Y-%m-%d %H:%M:%S"],
 }
